@@ -10,10 +10,9 @@ public class cebra {
         columna = entrada.nextInt();
         ini = entrada.nextInt();
 
-        for(int i=0; i<fila; i++){
-            for(int j=0; j<columna; j++){
-                if(ini%2==0)System.out.print("1 "); //si empieza en par, empezamos con 1s
-                else System.out.print("0 ");
+        for(int i=0; i<fila; i++) {
+            for (int j = 0; j < columna; j++) {
+                System.out.print(ini % 2 == 0 ? "1 " :"0 ");//si empieza en par, empezamos con 1s
             }
             System.out.println(" ");
             ini++;//turnamos entre 1 y 0
