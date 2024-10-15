@@ -1,9 +1,10 @@
-package practicas;
-import javax.swing.*;
 import java.util.Scanner;
 
-public class pruebas {
+public class ascensor {
     public static void main(String[] args) {
+
+        Scanner entrada = new Scanner(System.in);
+
 
     }
 }
