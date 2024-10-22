@@ -3,7 +3,9 @@ import java.util.Scanner;
 public class Lalafel {
     public static void main(String[] args) {
 
+
         Scanner entrada = new Scanner(System.in);
+
         int casos = entrada.nextInt();
 
         entrada.nextLine();//<- sirve para evitar el error que nos daba en clase al leer un String despues de un Int
@@ -44,7 +46,9 @@ public class Lalafel {
                 j++;
             }
             if(capacidad > cont_lala) telaranya = 0;
-            System.out.println("Hay "+ telaranya +" telaranyas llenas.");
+           // System.out.println("Hay "+ telaranya +" telaranyas llenas.");
+            System.out.format("Hay %d telaranyas llenas %n", telaranya); ///mas optimo que el anterior pk no crea objetos
+            //System.out.printf(""); ==  System.out.format("");
         }
     }
 }
