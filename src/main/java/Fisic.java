@@ -6,21 +6,18 @@ public class Fisic {
         Scanner entrada = new Scanner(System.in);
         int casos = 0;
 
-        do {
-            casos = entrada.nextInt();
-        }while (casos < 0 || casos >= 1000);
-        entrada.nextLine();
+        casos = entrada.nextInt();
 
         for (int i = 0; i < casos; i++) {
             char opcio = entrada.next().charAt(0);
             entrada.nextLine();
-            String paraules = entrada.nextLine();
+            String paraules = entrada.skip("[\n\r]*").nextLine();
 
             switch (opcio){
                 case 'P':
                     String resultat1 [] = paraules.split(" ");
                     for (int j = 0; j < resultat1.length; j++) {
-                        System.out.print(resultat1[j].toUpperCase().charAt(0)+resultat1[j].toLowerCase().substring(1d));
+                        System.out.print(resultat1[j].toUpperCase().charAt(0)+resultat1[j].toLowerCase().substring(1));
                     }
                     break;
                 case 'K': System.out.println(paraules.toLowerCase().replace(" ","-"));
@@ -35,7 +32,7 @@ public class Fisic {
                     }
                     break;
             }
-            System.out.println(" ");
+            System.out.println("");
         }
     }
 }
