@@ -1,8 +1,7 @@
 package proves;
-
 import java.util.Scanner;
 
-public class IndexMatriu {
+public class    IndexMatriu {
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
         int fila = entrada.nextInt(), columna = entrada.nextInt();

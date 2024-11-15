@@ -8,7 +8,7 @@ public class MaximMatriu {
         int casos = entrada.nextInt();
         for (int i = 0; i < casos; i++) {
             int fila = entrada.nextInt(), columna = entrada.nextInt();
-            int matriu[][] = new int[fila][columna];
+            int matriu [][] = new int[fila][columna];
             int fil_max = 0, col_max = 0;
             int mayor = 0;
             for (int y = 0; y < fila; y++) {
@@ -22,7 +22,6 @@ public class MaximMatriu {
                 }
             }
             System.out.println((fil_max+1)+" "+(col_max+1));
-
         }
     }
 }
