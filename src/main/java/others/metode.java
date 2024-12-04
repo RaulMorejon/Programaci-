@@ -31,7 +31,6 @@ class AdminTasques{
     int i = 0;
      public void llistar_tasca(String llista_tasca[]){
 
-
      }
     public void crear_tasca(){
          String nom = JOptionPane.showInputDialog("Introdueix el nom de la tasca: ");
@@ -39,7 +38,7 @@ class AdminTasques{
          llista_tasca[i] = tasca.mostrar_des();
          i++;
     }
-     public void elimar_tasca(){
+    public void elimar_tasca(){
          System.out.println("Tasca elimada amb exit");
      }
     public void completar_tasca(){

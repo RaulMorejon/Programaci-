@@ -12,6 +12,7 @@ public class SumaFilesCol {
             }
         }
         int pos = entrada.nextInt(), suma_fil = 0;
+
         for (int i = 0; i < fila; i++) {
             suma_fil = suma_fil + matriu[i][pos];
         }
@@ -20,6 +21,5 @@ public class SumaFilesCol {
             suma_col = suma_col + matriu[pos][i];
         }
         System.out.println(suma_col+" "+suma_fil);
-
     }
 }
