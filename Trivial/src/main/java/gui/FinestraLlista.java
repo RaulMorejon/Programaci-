@@ -57,7 +57,8 @@ public class FinestraLlista extends JFrame {
 
 
         //error: devuelve nulo
-        dafInsertar = obtenirFitxerModificat();
+        //dafInsertar = obtenirFitxerModificat();
+        dafInsertar = new DirectAccessFile<>("dadesUsuaris.dat");
         if (dafInsertar==null) System.out.println("Fitxer null en llista");
 
         Object[][] dades = new Object[dafInsertar.size()][7];//2 columnes i calculem les files que hi han al fitxer

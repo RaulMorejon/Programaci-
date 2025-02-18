@@ -55,6 +55,8 @@ public class FinestraPrincipal extends JFrame{
     private JButton botoJugar;
     private JButton botoBancPreguntes;
     private static DirectAccessFile<Pojo> daf; //fitxer
+    private FinestraLlista finestraLlista;
+
 
     public FinestraPrincipal() throws IOException, ClassNotFoundException {
         this.setContentPane(panellPrincipal); //Per poder visualitzar la finestra
@@ -66,14 +68,7 @@ public class FinestraPrincipal extends JFrame{
         this.setSize(1300, 900);
         this.setResizable(false);
 
-        /// /
-        FinestraLlista finestraLlista = new FinestraLlista();
-        finestraLlista.dispose();//oculta la llista creada
-        daf = new DirectAccessFile<>("dadesUsuaris.dat");
-
-
-
-
+        daf = new DirectAccessFile<>("dadesUsuaris.dat");//Inicialitzar fitxer
 
         //FINESTRA JUGAR
         botoJugar.addActionListener(new ActionListener() {
@@ -96,6 +91,11 @@ public class FinestraPrincipal extends JFrame{
         botoUsuaris.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
+                try {
+                    finestraLlista = new FinestraLlista();//instanciem la clase
+                } catch (IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null,"Hi ha hagut un problema per obrir la Lista");
+                }
                 Point ubicacio = getLocation();//ubicació primera finestra
                 finestraLlista.setLocation(ubicacio.x, ubicacio.y);//segona finestra al mateix lloc
                 finestraLlista.setVisible(true);//mostra la llista creada abants
@@ -115,10 +115,8 @@ public class FinestraPrincipal extends JFrame{
                 FinestraRegistrat finestraRegistrat = null;//creem la finestra
                 try {
                     finestraRegistrat = new FinestraRegistrat(finestraLlista);
-                } catch (IOException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, "Hi ha hagut algun problema amb el registre");
-                } catch (ClassNotFoundException ex) {
-                    throw new RuntimeException(ex);
                 }
                 Point ubicacio = getLocation();//ubicació primera finestra
                 finestraRegistrat.setLocation(ubicacio.x, ubicacio.y);//segona finestra al mateix lloc
@@ -169,6 +167,11 @@ public class FinestraPrincipal extends JFrame{
         });
 
     }
+
+    /**
+     * Comparteix el fitxer creat
+     * @return el fitxer creat en aquesta clase
+     */
     public static DirectAccessFile obtenirFitxer (){
         return daf;
     }

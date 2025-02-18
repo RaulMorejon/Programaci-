@@ -48,7 +48,8 @@ public class FinestraRegistrat extends JFrame{
         this.llistaUsr = llista;
 
         //fitxer dades usuari
-        dafModificat = obtenirFitxer();
+        //dafModificat = obtenirFitxer();
+        dafModificat = new DirectAccessFile<>("dadesUsuaris.dat");
         if (dafModificat==null) System.out.println("Fitxer null en Registrar");
 
         //DATA NAIXEMENT - Emplenar tots els Combo box - i posar valors per defecte
@@ -73,11 +74,13 @@ public class FinestraRegistrat extends JFrame{
                         //Posteriorment guardara a la taula
                         Pojo usr = new Pojo(nom.getText().strip(), cognoms.getText().strip(), edat, nacionalitat.getText().strip(), partidesJugades, partidesGuanyades, preguntesAcertades);
 
+                        /* Nom repetit
                         if(llistaUsr.nomComplertRepetit(nom.getText(),cognoms.getText())) JOptionPane.showMessageDialog(null,"Usuari ja existent");
                         else{
                             llistaUsr.afegirDades(usr);//Guarda a la taula
                             JOptionPane.showMessageDialog(null,"Usuari Registrat Correctaments");
                         }
+                        */
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
