@@ -1,7 +1,6 @@
 package gui;
 
 import com.iesebre.usefulcode.DirectAccessFile;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -10,18 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-import static gui.FinestraPrincipal.*;
-import static gui.FinestraRegistrat.*;
-
 /*
-- Lista de usuarios:
-        - Nombre y apellido
-        - Edad
-        - Pais de nacimiento
-        - nº partidas jugadas
-        - nº partidas ganadas
-        - nºpreguntas acertadas
-        - borrar o modificar usuaris -> modificar en otra ventana
+IMPLEMENTACIÓNS PENDENTS:
+
+    - No deixar modificar un usuari i posar un nom que ja existeix
 */
 public class FinestraLlista extends JFrame {
 
@@ -101,22 +92,38 @@ public class FinestraLlista extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int filaSel = llistaUsuaris.getSelectedRow(); //retorna numero de fila, si no hi ha cap retorna -1
-                if(filaSel!=-1 && (!nom.getText().isBlank()&&!cognoms.getText().isBlank()&&!nacionalitat.getText().isBlank())){
-                    int nGuanyades = llistaUsuaris.getColumnModel().getColumnIndex("NºPartides Guanyades")+1;
-                    int nJugades = llistaUsuaris.getColumnModel().getColumnIndex("NºPartides jugades")+1;
-                    int nAcertades = llistaUsuaris.getColumnModel().getColumnIndex("NºPreguntes Acertades")+1;
+                if(filaSel!=-1){
+                    if ((!nom.getText().isBlank()&&!cognoms.getText().isBlank()&&!nacionalitat.getText().isBlank())){
+                        //Obte els camps de la taula
+                        int nGuanyades = llistaUsuaris.getColumnModel().getColumnIndex("NºPartides Guanyades")+1;
+                        int nJugades = llistaUsuaris.getColumnModel().getColumnIndex("NºPartides jugades")+1;
+                        int nAcertades = llistaUsuaris.getColumnModel().getColumnIndex("NºPreguntes Acertades")+1;
 
-                    Pojo usr_nou = new Pojo(nom.getText().strip(), cognoms.getText().strip(),comboBoxEdat.getSelectedIndex()+4, nacionalitat.getText().strip(),nGuanyades, nJugades, nAcertades);
-                    dtm.removeRow(filaSel);//Primer borrem la fila seleccionada
-                    modificarDades(usr_nou, filaSel);//metode creat per modificar dades
+                        //Guarda al pojo les dades completes
+                        Pojo usr_nou = new Pojo(nom.getText().strip(), cognoms.getText().strip(),comboBoxEdat.getSelectedIndex()+4, nacionalitat.getText().strip(),nGuanyades, nJugades, nAcertades);
+                        //Primer borrem la fila seleccionada
+                        try {
+                            dafInsertar.deleteObject(filaSel);
+                            dtm.removeRow(filaSel);
+                        } catch (IOException | ClassNotFoundException ex) {
+                            JOptionPane.showMessageDialog(null,"Error: Hi ha un problema per modificar la linea (No elimina)");
+                        }
+                        //Modificar dades
+                        try {
+                            afegirDades(usr_nou);//metode per guardar al fitxer
+                            modificarDades(usr_nou, filaSel);//metode per guardar a la taula
 
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(null, "Error: Hi ha un problema per modificar la linea (No Inserta)");
+                        }
+                        JOptionPane.showMessageDialog(null, "Usuari Modificat Correctament");
+                        //posa les entrades de baix del programa en blanc
+                        nom.setText("");
+                        cognoms.setText("");
+                        nacionalitat.setText("");
+                        comboBoxEdat.setSelectedItem("4");
+                    }else JOptionPane.showMessageDialog(null,"Els camps no poden ser blancs");
 
-                    JOptionPane.showMessageDialog(null, "Usuari Modificat Correctament");
-                    //posa les entrades de baix del programa en blanc
-                    nom.setText("");
-                    cognoms.setText("");
-                    nacionalitat.setText("");
-                    comboBoxEdat.setSelectedItem("4");
                 } else JOptionPane.showMessageDialog(null, "Has de seleccionar la fila a modificar");
             }
         });

@@ -9,11 +9,9 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 /*
-IMPLEMENTACIÓNS faltants:
-
+IMPLEMENTACIÓNS PENDENTS:
 
  */
-
 
 public class FinestraRegistrat extends JFrame{
     private JPanel panellRegistrat;
@@ -107,8 +105,12 @@ public class FinestraRegistrat extends JFrame{
             }
         });
 
-
     }
+
+    /**
+     * Comparteix el fitxer modificat
+     * @return Retorna el fitxer modificat
+     */
     public static DirectAccessFile obtenirFitxerModificat(){
         return dafModificat;
     }
