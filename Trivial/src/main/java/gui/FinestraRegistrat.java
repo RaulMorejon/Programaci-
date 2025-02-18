@@ -8,12 +8,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-import static gui.FinestraPrincipal.obtenirFitxer;
+/*
+IMPLEMENTACIÓNS faltants:
 
-//- Registrar usuario
-//        - Nombre y apellido
-//        - Fecha de nacimiento
-//        - Pais de nacimiento
+
+ */
+
 
 public class FinestraRegistrat extends JFrame{
     private JPanel panellRegistrat;
@@ -35,7 +35,6 @@ public class FinestraRegistrat extends JFrame{
     private static DirectAccessFile<Pojo> dafModificat; //
 
 
-
     public FinestraRegistrat (FinestraLlista llista) throws IOException, ClassNotFoundException {
         this.setContentPane(panellRegistrat); //Per poder visualitzar la finestra
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //Tanca per complet quan li dones a la creu
@@ -47,10 +46,7 @@ public class FinestraRegistrat extends JFrame{
         this.setResizable(false);
         this.llistaUsr = llista;
 
-        //fitxer dades usuari
-        //dafModificat = obtenirFitxer();
-        dafModificat = new DirectAccessFile<>("dadesUsuaris.dat");
-        if (dafModificat==null) System.out.println("Fitxer null en Registrar");
+        dafModificat = new DirectAccessFile<>("dadesUsuaris.dat");//Inicialitzem fitxer
 
         //DATA NAIXEMENT - Emplenar tots els Combo box - i posar valors per defecte
         for (int i = 1; i <= 31; i++) comboBoxDia.addItem(String.valueOf(i));//Afegir dies
@@ -63,24 +59,22 @@ public class FinestraRegistrat extends JFrame{
         botoRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 //afegir les dades a la llista
                 int edat = 2025-(Integer.parseInt((String)comboBoxAny.getSelectedItem()));
                 int partidesJugades = 5, partidesGuanyades = 6, preguntesAcertades = 7;
 
                 if (!nom.getText().isBlank() && !cognoms.getText().isBlank() && !nacionalitat.getText().isBlank()){
                     try {
-                        //guarda al fitxer
-                        dafModificat.writeObject(new Pojo(nom.getText().strip(),cognoms.getText().strip(), edat, nacionalitat.getText().strip(),partidesJugades, partidesGuanyades, preguntesAcertades));
-                        //Posteriorment guardara a la taula
                         Pojo usr = new Pojo(nom.getText().strip(), cognoms.getText().strip(), edat, nacionalitat.getText().strip(), partidesJugades, partidesGuanyades, preguntesAcertades);
-
-                        /* Nom repetit
-                        if(llistaUsr.nomComplertRepetit(nom.getText(),cognoms.getText())) JOptionPane.showMessageDialog(null,"Usuari ja existent");
-                        else{
-                            llistaUsr.afegirDades(usr);//Guarda a la taula
-                            JOptionPane.showMessageDialog(null,"Usuari Registrat Correctaments");
+                        //Si hi ha nom repetit donem un missatge i no guardem
+                        if(llistaUsr != null){
+                            if(llistaUsr.nomComplertRepetit(nom.getText(),cognoms.getText())) JOptionPane.showMessageDialog(null,"Usuari ja existent");
+                            else{
+                                llistaUsr.afegirDades(usr);//Guarda a la taula
+                                JOptionPane.showMessageDialog(null,"Usuari Registrat Correctaments");
+                            }
                         }
-                        */
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -94,7 +88,6 @@ public class FinestraRegistrat extends JFrame{
                 }else JOptionPane.showMessageDialog(null, "Completa tots els camps");
             }
         });
-
 
         botoPaginaPrincipal.addActionListener(new ActionListener() {
             @Override

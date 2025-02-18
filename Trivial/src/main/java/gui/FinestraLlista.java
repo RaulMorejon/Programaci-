@@ -52,20 +52,11 @@ public class FinestraLlista extends JFrame {
         if (dafInsertar==null){
             dafInsertar = new DirectAccessFile<>("dadesUsuaris.dat");
         }
+        for (int i = 4; i <= 100; i++) comboBoxEdat.addItem(String.valueOf(i));//Completa el combobox de l'edat
 
-        for (int i = 4; i <= 100; i++) comboBoxEdat.addItem(String.valueOf(i));
-
-
-        //error: devuelve nulo
-        //dafInsertar = obtenirFitxerModificat();
-        dafInsertar = new DirectAccessFile<>("dadesUsuaris.dat");
-        if (dafInsertar==null) System.out.println("Fitxer null en llista");
-
+        dafInsertar = new DirectAccessFile<>("dadesUsuaris.dat");//Inicialitcem fitxer
         Object[][] dades = new Object[dafInsertar.size()][7];//2 columnes i calculem les files que hi han al fitxer
-
-
-
-        //Guarda correctament al fitxer
+        //Guarda correctament al fitxer les dades
         for (int i = 0; i < dafInsertar.size(); i++) {
             Pojo p = dafInsertar.readObject(i);//llegueix els objectes de cada posició
             //Guardem les dades en la matriu
@@ -79,6 +70,7 @@ public class FinestraLlista extends JFrame {
         }
 
 
+
         dtm = new DefaultTableModel(
                 //Dades a mostrar
                 dades,
@@ -89,14 +81,17 @@ public class FinestraLlista extends JFrame {
         llistaUsuaris.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Seleccio de la taula de manera que nomes es pugui seleccionar una fila (per seguretat)
 
 
-
         botoEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int filaSel = llistaUsuaris.getSelectedRow(); //retorna numero de fila, si no hi ha cap retorna -1
                 if(filaSel!=-1){
-                    dtm.removeRow(filaSel);//Borra la fila seleccionada
-                    JOptionPane.showMessageDialog(null, "Eliminat Correctament");
+                    try {
+                        dafInsertar.deleteObject(filaSel);
+                        dtm.removeRow(filaSel);//Borra la fila seleccionada
+                    }catch (IOException | ClassNotFoundException ex){
+                        JOptionPane.showMessageDialog(null, "Eliminat Correctament");
+                    }
                 }
                 else JOptionPane.showMessageDialog(null, "Has de seleccionar una fila per borrar-la");
             }
@@ -141,12 +136,14 @@ public class FinestraLlista extends JFrame {
             }
         });
     }
+
+
     /**
-     * Afegeix les dades d'un usuari nou al llistat d'usuaris
+     * Afegeix les dades d'un usuari nou al llistat d'usuaris al fitxer
      * @param usuari Tipus Pojo
      */
-    public void afegirDades (Pojo usuari){
-        dtm.addRow(new Object[]{
+    public void afegirDades (Pojo usuari) throws IOException {
+        dafInsertar.writeObject(new Pojo(
                 usuari.getNom().strip(),
                 usuari.getCognoms().strip(),
                 usuari.getEdat(),
@@ -154,9 +151,8 @@ public class FinestraLlista extends JFrame {
                 usuari.getPartidesGuanyades(),
                 usuari.getPartidesJugades(),
                 usuari.getPreguntesAcertades()
-        });
+        ));
     }
-
 
     /**
      * Modifica les dades d'un usuari de la llista d'usuaris
